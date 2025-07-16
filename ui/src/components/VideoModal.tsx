@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { SortType } from '../types/types'
 
 type Props = {
@@ -7,10 +7,10 @@ type Props = {
 }
 
 const VideoModal = ({ onClick, sortType }: Props) => {
+  const videoRef = useRef<HTMLMapElement>(null);
 
   useEffect(() => {
-    // TODO - replace with ref
-    document.getElementById('videoModal')?.focus();
+    videoRef.current?.focus()
   }, [])
 
   const getVideo = () => {
@@ -19,25 +19,25 @@ const VideoModal = ({ onClick, sortType }: Props) => {
     else if (sortType === 'Bubble') return 'https://www.youtube.com/embed/xli_FI7CuzA';
   }
 
-
   return (
     <aside
-        aria-label='Help Video'
-        id="videoModal"
-        role='region'
-        tabIndex={-1}
-      >
-        <button
-          aria-label='close video'
-          id='closeVideo' 
-          className="closeButton" 
-          onClick={onClick} 
-        >X</button>
-        <iframe 
-          src={getVideo()}
-          title='Video Explaining how to do the algorithm'
-        ></iframe> 
-      </aside>
+      aria-label='Help Video'
+      id="videoModal"
+      role='region'
+      tabIndex={-1}
+      ref={videoRef}
+    >
+      <button
+        aria-label='close video'
+        id='closeVideo' 
+        className="closeButton" 
+        onClick={onClick} 
+      >X</button>
+      <iframe 
+        src={getVideo()}
+        title='Video Explaining how to do the algorithm'
+      ></iframe> 
+    </aside>
   )
 }
 export default VideoModal

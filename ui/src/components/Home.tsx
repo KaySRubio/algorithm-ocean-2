@@ -12,7 +12,7 @@ import portrait from '@/assets/png/portraitPlaceholder.png';
 
 const Home = () => {
   return (
-  <div className="home">
+    <div className="home">
       <div id='homeAlgorithmMenu'>
         <Link className="link navbarlink" to="/lesson/bubble">Bubble Sort</Link>
         <Link className="link navbarlink" to="/lesson/insertion">Insertion Sort</Link>
@@ -146,8 +146,6 @@ const Home = () => {
         </div>
       </div>
     </div>
-  
-  
   )
 }
 export default Home

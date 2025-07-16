@@ -3,19 +3,13 @@ import magnifying_glass from '@/assets/png/magnifying_glass.png';
 import lightbulb from '@/assets/png/lightbulb.png';
 import { facts } from '../data/data';
 
-
 const FunFact = () => {
-
   const [factNum, setFactNum] = useState<number>(0)
+  const [isFlipped, setIsFlipped] = useState<boolean>(false);
 
   useEffect(() => {
     setFactNum(pickRandomFact());
   }, [])
-
-  // TODO - replace with ref
-  const flipAnimation = () => {
-    document.getElementById('funFact')?.classList.toggle('is-flipped');
-  }
 
   const pickRandomFact = () => {
     let m = Math.floor(Math.random()*100);
@@ -25,10 +19,14 @@ const FunFact = () => {
     return m;
   }
 
-  // TODO - remove dangerouslySetInnerHTML --> fix
   return (
     <div className="scene scene--card">
-        <div aria-label='Fact about algorithms and ocean science' className="card" id='funFact' onClick={flipAnimation}>
+        <div 
+          aria-label='Fact about algorithms and ocean science'
+          className={`card ${isFlipped ? 'is-flipped' : ''}`}
+          id='funFact'
+          onClick={() => setIsFlipped(prev => !prev)}
+        >
           <div className="card__face card__face--front">
             <img alt='' id='factMagnifyingGlass' src={magnifying_glass} />
             <h2 className='card_text'>Did you know...</h2>

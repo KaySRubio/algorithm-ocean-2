@@ -21,7 +21,7 @@ const NavBar = () => {
   }
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${darkMode ? 'theme-dark' : 'theme-light'}`}>
       <div className='phone-only'>
         <button aria-label='Open menu' id="menuButton" onClick={openClosePhoneMenu}>
           <img src={darkMode ? hamburgDark : hamburgLight} className="hamburg" alt="A menu button"/>
@@ -46,7 +46,6 @@ const NavBar = () => {
         <Link className="link navbarlink" to="/">Home</Link>
         <Link className="link navbarlink" to="/about">About</Link>
       </nav>
-
     </header>
   )
 }

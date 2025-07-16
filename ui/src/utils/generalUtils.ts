@@ -39,8 +39,6 @@ export const initializeArray = (length: number): number[] => {
   }
 
 export const isAnswerCorrect = (stack1: UserStackItem[], stack2: ProgramStackItem[]): boolean => {
-    // console.log("userMoves: ", this.props.userMoves);
-    // console.log("programMoves: ", this.props.programMoves);
     if (stack1.length !== stack2.length) return false;
     let i;
     for(i = 0; i < stack1.length; i++) {

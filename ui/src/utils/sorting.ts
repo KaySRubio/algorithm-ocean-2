@@ -74,7 +74,6 @@ export const sort = (type: SortType, array: number[]): ProgramStackItem[] => {
   let programStack1: ProgramStackItem[] = [];
     switch(type) {
       case 'Bubble': {
-        console.log('going to perform bubble sort with this array: ', array);
         const programStack = performBubbleSort(array);
         programStack1 = programStack;
         break;

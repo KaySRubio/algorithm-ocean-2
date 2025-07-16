@@ -10,14 +10,12 @@ import SubmissionFeedback from './SubmissionFeedback'
 import { isArraySorted, initializeArray, isAnswerCorrect, cursor } from '../utils/generalUtils';
 import { makeTextSquare, visualSwap, visualInsert, visualUndoInsert } from '../utils/canvasUtils'
 import { sort } from '../utils/sorting';
-import type { SortType, Operation, UserStackItem } from '../types/types'
+import type { SortType, Operation, UserStackItem, ProgramStackItem } from '../types/types'
 import { darkblue, lightblue, medblue, transparent } from '../data/data';
 
 type Props = {
   sortType: SortType;
 }
-
-type ProgramStackItem = [Operation, number, number]
 
 const Lesson = ({ sortType }: Props) => {
   const { setLiveMessage } = useAppContext();
@@ -42,8 +40,8 @@ const Lesson = ({ sortType }: Props) => {
   // Array to hold CreateJS text squares which will be accessed in various places
   const textSquares = useRef<createjs.Container[]>([])
   const shiftToRight = useRef<createjs.Container[]>([]);
+  const activityRef = useRef<HTMLDivElement>(null);
 
-  // TODO - need type
   const [userStack, setUserStack] = useState<UserStackItem[]>([])
   const [programStack, setProgramStack] = useState<ProgramStackItem[]>([]); // Stack will hold all moves of program, including operation and both numbers swapped
   const [submitEnabled, setSubmitEnabled] = useState<boolean>(false)
@@ -53,21 +51,13 @@ const Lesson = ({ sortType }: Props) => {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false)
   const [showHelpModal, setShowHelpModal] = useState<boolean>(false)
   
-
   // Parallel refs to help canvasJs which doesn't access updated state
   const userStackRef = useRef<UserStackItem[]>([]);
   const operationRef = useRef<Operation>(defaultOperation);
 
-   /* -- stacker pointer variables -- */
-   // Stack Pointer, will point to top of the stack and be used to remove move during undo operation
-   // TODO - see if can just replace with length of the programStack???
-
   useEffect(() => {
     if(userArrayRef.current.length === 0) {
       let initialUnsortedArray1 = initializeArray(length.current);
-      // Debugging
-      // let initialUnsortedArray1 = [6, 5, 4, 3, 2, 1]
-
       let copyOfInitialUnsortedArray = [...initialUnsortedArray1]
       let programStack1: ProgramStackItem[] = [];
 
@@ -83,16 +73,14 @@ const Lesson = ({ sortType }: Props) => {
       }
       // copy final array into userCopy and programCopy that will be modified with operations
       setUnsortedArray([...initialUnsortedArray1]);
-      // array = [...array];
       userArrayRef.current = [...initialUnsortedArray1];
-      // programArray = [...initialUnsortedArray1];
       array.current = [...initialUnsortedArray1];
 
       setProgramStack(programStack1);
     }
   }, [])
 
-    // Initialize the createJS canvas
+  // Initialize the createJS canvas
   const initializeCreateJsCanvas = (array1: number[]) => {
     let x = 10;
     const y = 10;
@@ -115,11 +103,9 @@ const Lesson = ({ sortType }: Props) => {
   }, [unsortedArray])
 
   useEffect(() => {
-    console.log('programStack updated to ', programStack);
   }, [programStack])
 
   useEffect(() => {
-    console.log('userStack updated to ', userStack);
     userStackRef.current = userStack;
     shiftToRight.current = []
   }, [userStack])
@@ -153,10 +139,6 @@ const Lesson = ({ sortType }: Props) => {
       if (swapClicks.current===2) { // second canvasClick run operation if clicked on 2 different elements
         swapClicks.current = 0; // reset swapClicks to 0
         // if the clicked on the same element twice move it back to where it was
-
-        console.log('operandContainers.current', operandContainers.current)
-        console.log('userStackRef.current', userStackRef.current);
-
         if (operandContainers.current[0] === operandContainers.current[1]) {
 
           if(operandContainers.current[0]) operandContainers.current[0].y=0;
@@ -178,7 +160,6 @@ const Lesson = ({ sortType }: Props) => {
             if(operandContainers.current[1]) operandContainers.current[1].y+=10;
             if(stage.current) stage.current.update();
             runOperation();
-
         }
       }
     } else if (operationRef.current === 'Insert') {
@@ -230,7 +211,6 @@ const Lesson = ({ sortType }: Props) => {
   }
 
   const handleCanvasTriangleClick = (event: createjs.MouseEvent) => {
-    
     // if user has clicked on a square already, store the second operand (the triangle's parent) and run operation
     if (operandContainers.current[0]) {
       
@@ -358,15 +338,12 @@ const Lesson = ({ sortType }: Props) => {
   const showSubmitButton = () => {
     setSubmitEnabled(true)
     setLiveMessage('Submit button is now active in the Toolbox region. When you are done with the algorithm, please navigate to the Toolbox region and click on the submit button.')
-    // TODO - replace with ref
-    document.getElementById('submit')?.setAttribute("style", "animation: grow 0.5s ease-in-out 2"); // Run small animation to make submit button noticeable
   }
 
   // Click event on the button in the help Modal that normally goes to next, but when directions are over can close modal
   const closeModal = () => {
     setShowHelpModal(false)
-    // TODO replace with ref
-    document.getElementById('activity')?.focus();
+    activityRef.current?.focus();
   }
 
   // Submit event
@@ -391,30 +368,21 @@ const Lesson = ({ sortType }: Props) => {
         return prevStack;
       }
       const recentOperation = prevStack[prevStack.length-1][0];
-      console.log('recentOperation:', recentOperation);
-
       const lastMove = prevStack[prevStack.length - 1];
-      console.log('lastMove: ', lastMove);
-
       switch (recentOperation) {
         case 'Swap':
           // swap the elements back visually using the containers stored on the top of the stack
           visualSwap(lastMove[4], lastMove[5] as createjs.Container, stage.current as createjs.Stage);
-
           break;
         case 'Insert':
           // swap elements back visually using the containers stored on the top of the stack
           visualUndoInsert(lastMove[4], lastMove[5] as createjs.Container[], stage.current, textSquares.current)
-            
           break;
         default:
           break;
         }
-
-      console.log('prevStack.length', prevStack.length);
       if(prevStack.length > 1) {
         const moveTwoBehind = prevStack[prevStack.length - 2];
-        console.log('moveTwoBehind: ', moveTwoBehind[3]);
         userArrayRef.current = moveTwoBehind[3];
       } else {
         userArrayRef.current = [...unsortedArray];
@@ -432,7 +400,6 @@ const Lesson = ({ sortType }: Props) => {
     if (!target || !target.id) return;
     const id = target.id;
 
-    // if(!event || !event.target || !event.target.id) return;
     if (id === 'submit') {
       handleSubmit();
     } else if (id === 'undo') {
@@ -445,12 +412,10 @@ const Lesson = ({ sortType }: Props) => {
       setShowHelpModal(true)
     } else if (id === 'closeVideo') {
       setShowVideoModal(false)
-      // TODO replace with ref
-      document.getElementById('activity')?.focus();
+      activityRef.current?.focus();
     } else if (id === 'closeHelp') {
       setShowHelpModal(false)
-      // TODO replace with ref
-      document.getElementById('activity')?.focus();
+      activityRef.current?.focus();
     } else {
       console.warn('Error! Invalid tool selected from the toolbox.');
     }
@@ -458,87 +423,88 @@ const Lesson = ({ sortType }: Props) => {
 
   return (
     <div className="lesson">
-          <div
-            aria-hidden={showVideoModal || showHelpModal}
-            style={{cursor: `url(${cursor(operation)}), default`}}
-            id="activity"
-            tabIndex={-1}
-          >
-            { !answerSubmitted && <main 
-              aria-label='activity' 
-              className={operation}
-              id="sortSection" 
-              role='region' 
+      <div
+        aria-hidden={showVideoModal || showHelpModal}
+        style={{cursor: `url(${cursor(operation)}), default`}}
+        id="activity"
+        tabIndex={-1}
+        ref={activityRef}
+      >
+      { !answerSubmitted && <main 
+        aria-label='activity' 
+        className={operation}
+        id="sortSection" 
+        role='region' 
+      >
+        <h1>{sortType} Sort</h1>
+        <p className='center'>Sort from left to right, smallest to biggest</p>
+        <canvas 
+          id="demoCanvas" 
+          width={canvasWidth} 
+          height="135px">
+        </canvas>
+        { hint !== '' && <p id='activityHint'>{hint}</p> }
+      </main> }
+      { !answerSubmitted && <aside 
+        aria-label='Your moves' 
+        className={ operation} 
+        id="yourMoves"
+        role='region'
+      >
+        <h2>Your moves</h2>
+        <p className='center'>Original Array: {unsortedArray.join(', ')}</p>
+        <br/>
+        {userStack.length>0} <ol>
+          {userStack.map((item, index) => (
+            <li key={index}
+              className="movesListItem"
             >
-              <h1>{sortType} Sort</h1>
-              <p className='center'>Sort from left to right, smallest to biggest</p>
-              <canvas 
-                id="demoCanvas" 
-                width={canvasWidth} 
-                height="135px">
-              </canvas>
-              { hint !== '' && <p id='activityHint'>{hint}</p> }
-            </main> }
-            { !answerSubmitted && <aside 
-              aria-label='Your moves' 
-              className={ operation} 
-              id="yourMoves"
-              role='region'
-            >
-              <h2>Your moves</h2>
-              <p className='center'>Original Array: {unsortedArray.join(', ')}</p>
-              <br/>
-              {userStack.length>0} <ol>
-                {userStack.map((item, index) => (
-                  <li key={index}
-                    className="movesListItem"
-                  >
-                    {item[0]} {item[1]} 
-                    {item[0]==='Insert' ? ' before ' : ' and '}
-                    {item[2]}:&nbsp;
-                    <span className='sr-only'> resulting array is&nbsp;</span>
-                    [{item[3].join(', ')}] 
-                  </li>
-                ))}
-              </ol>
-            </aside> }
+              {item[0]} {item[1]} 
+              {item[0]==='Insert' ? ' before ' : ' and '}
+              {item[2]}:&nbsp;
+              <span className='sr-only'> resulting array is&nbsp;</span>
+              [{item[3].join(', ')}] 
+            </li>
+          ))}
+        </ol>
+      </aside> }
 
-            { answerSubmitted && <SubmissionFeedback 
-              array={unsortedArray}
-              userMoves={userStack}
-              programMoves={programStack}
-              sortType={sortType} 
-              correct={answerCorrect}
-              onClick={toolboxClickHandler} 
-            /> }
-            
-          </div>
-            {!answerSubmitted && <Toolbox
-              activeTool={operation}
-              hidden={showVideoModal || showHelpModal}
-              enableSubmit={submitEnabled}
-              isQuiz = {false} 
-              onClick={toolboxClickHandler} 
-              sortType={sortType} 
-            />}
-            { showVideoModal && <VideoModal
-              onClick={toolboxClickHandler} 
-              sortType={sortType}
-             /> }
-            {showHelpModal && !showVideoModal && <HelpModal 
-              closeModal={closeModal}
-              isQuiz = {false}
-              onClick={toolboxClickHandler} 
-              sortType={sortType}
-            />}
+      { answerSubmitted && <SubmissionFeedback 
+        array={unsortedArray}
+        userMoves={userStack}
+        programMoves={programStack}
+        sortType={sortType} 
+        correct={answerCorrect}
+        onClick={toolboxClickHandler} 
+      /> }
+        
+    </div>
+      {!answerSubmitted && <Toolbox
+        activeTool={operation}
+        hidden={showVideoModal || showHelpModal}
+        enableSubmit={submitEnabled}
+        isQuiz = {false} 
+        onClick={toolboxClickHandler} 
+        sortType={sortType} 
+      />}
+      { showVideoModal && <VideoModal
+        onClick={toolboxClickHandler} 
+        sortType={sortType}
+        /> }
+      {showHelpModal && !showVideoModal && <HelpModal 
+        closeModal={closeModal}
+        isQuiz = {false}
+        onClick={toolboxClickHandler} 
+        sortType={sortType}
+      />}
 
-            { !showVideoModal && 
-              <Critter 
-                hidden={showVideoModal || showHelpModal} 
-                sortType={sortType}
-                answerCorrect={answerCorrect}
-              /> }
-        </div>
+      { !showVideoModal && 
+        <Critter 
+          hidden={showVideoModal || showHelpModal} 
+          sortType={sortType}
+          answerCorrect={answerCorrect}
+      /> }
+    </div>
   )
 }
 export default Lesson

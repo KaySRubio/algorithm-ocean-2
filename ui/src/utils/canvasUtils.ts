@@ -61,7 +61,6 @@ export const visualSwap = (containerA: createjs.Container, containerB: createjs.
   }
 
 export const visualInsert = (containerA: createjs.Container, shiftToRight: createjs.Container[], stage: createjs.Stage, textSquares: createjs.Container[]) => {
-    // console.log('containerA: ', containerA);
     // @ts-expect-error ignore canvas errors
     textSquares.forEach(e => e.children[2].fillCommand.style = transparent); // hide all triangles during visual insert
     // @ts-expect-error ignore canvas errors
