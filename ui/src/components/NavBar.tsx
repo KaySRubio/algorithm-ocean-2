@@ -24,7 +24,7 @@ const NavBar = () => {
     <header className={`navbar ${darkMode ? 'theme-dark' : 'theme-light'}`}>
       <div className='phone-only'>
         <button aria-label='Open menu' id="menuButton" onClick={openClosePhoneMenu}>
-          <img src={darkMode ? hamburgDark : hamburgLight} className="hamburg" alt="A menu button"/>
+          <img src={darkMode ? hamburgLight : hamburgDark} className="hamburg" alt="A menu button"/>
         </button>
         <nav aria-label='Mobile Menu' className={phoneMenuOpen ? '' : 'hidden'} id='phoneDropdown' role='navigation'>
           <br />
