@@ -21,7 +21,7 @@ const Lesson = ({ sortType }: Props) => {
   const { setLiveMessage } = useAppContext();
   const defaultOperation: Operation = sortType === 'Insertion' ? 'Insert' : 'Swap';
   const length = useRef(sortType === 'Insertion' ? 7 : 6);
-  const canvasWidth = length.current * 52.5;
+  const canvasWidth = (sortType === 'Insertion' ? (length.current*52.5+5) : (length.current*52.5))
 
   /* --- variables for arrays --- */
   const [unsortedArray, setUnsortedArray] = useState<number[]>([])
@@ -85,10 +85,15 @@ const Lesson = ({ sortType }: Props) => {
     let x = 10;
     const y = 10;
     stage.current = new Stage('demoCanvas');
+    // Move over slightly for smaller screen sizes, or insertion which has triangles
+    if(window.innerWidth < 500 && sortType === 'Insertion') {
+      x = 20;
+    } else if (sortType === 'Insertion') {
+      x = 15;
+    }
 
     for (let i = 0; i < array1.length; i++ ) {
       textSquares.current[i] = makeTextSquare(x, y, array1[i], operation, handleCanvasSquareClick, handleCanvasTriangleClick);
-        // textSquares[i] = makeTextSquare(x, y, array1[i]);
         if(stage.current) stage.current.addChild(textSquares.current[i]);
         x += 50;
     }

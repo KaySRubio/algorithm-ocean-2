@@ -13,6 +13,11 @@ import portrait from '@/assets/png/portraitPlaceholder.png';
 const Home = () => {
   return (
     <div className="home">
+       <div id='homeAlgorithmMenu'>
+        <Link className="link navbarlink" to="/lesson/bubble">Bubble Sort</Link>
+        <Link className="link navbarlink" to="/lesson/insertion">Insertion Sort</Link>
+        <Link className="link navbarlink" to="/lesson/selection">Selection Sort</Link>
+      </div>
       <div className='homeRowDark'>
         <div className='innerRow' id="innerRow1">
           <div id='row1col1'>

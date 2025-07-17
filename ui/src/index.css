@@ -1244,6 +1244,10 @@ select {
     top: 340px;
     right: 10px;
   }
+
+  #homeAlgorithmMenu {
+    display: none;
+  }
 }
 
 /* smaller screens */
@@ -1254,6 +1258,84 @@ select {
     top: 100px;
     right: 0px;
   }
+
+  #homeAlgorithmMenu {
+    display: none;
+  }
+}
+
+/* phone screens */
+@media (max-width: 470px) {
+
+  #homeAlgorithmMenu {
+    display: block;
+  }
+
+  #activity {
+    gap: 5px;
+  }
+  .critter {
+    position: absolute;
+    width: 150px;
+    top: 0px;
+    right: 0px;
+  }
+
+  .home-link, .about-link, .selection-link, .insertion-link, .bubble-link {
+    display: none;
+  }
+
+  #logo {
+    margin: 5px 0 0 0;
+  }
+
+  #toggleButton {
+    padding: 0;
+  }
+
+  #sort-section {
+    padding: 0;
+    min-width: 100%;
+  }
+
+  #sort-section>h1 {
+    margin: 10px 0;
+  }
+
+  #demoCanvas, .demo-canvas {
+    margin: 0 auto 0 auto;
+    
+  }
+
+  #your-moves {
+    padding: 10px 0 0 0;
+    min-height: 240px !important;
+    min-width: 100%;
+  }
+
+  #your-moves>h2 {
+    margin: 0 0 5px 0;
+    padding: 0;
+  }
+
+  #help-modal {
+    padding: 10px 0 0 0;
+    min-height: 220px !important;
+    min-width: 92% !important;
+  }
+
+  #toolbox {
+    margin: 5px auto 0 auto !important;
+    min-width: 94%;
+  }
+
+
+  #help-modal>h2 {
+    margin: 0 0 5px 0 !important;
+    padding: 0;
+  }
+
+
 }
 
 /*************** Lesson Page: Toolbox *****************/

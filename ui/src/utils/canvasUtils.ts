@@ -14,12 +14,23 @@ export const makeTextSquare = (
   squareClickHandler: (event: createjs.MouseEvent) => void,
   triangleClickHandler: (event: createjs.MouseEvent) => void
 ): createjs.Container => {
+
+    // Update triangles to slightly larger based on screen size
+    let triangleSize = 15;
+    console.log('window.innerWidth', window.innerWidth);
+    if(window.innerWidth < 500) {
+      triangleSize = 20;
+    }
+
     const textSquare = new Container(); // create container
     const square = new Shape(); // create square
     const squareFill = square.graphics.beginFill(darkblue).command; // create a command to change square color
+    // square.graphics.setStrokeStyle(3).beginStroke(lightblue).drawRect(x, y, 40, 35); // x,y,width,height
     square.graphics.setStrokeStyle(3).beginStroke(lightblue).drawRect(x, y, 46, 35); // x,y,width,height
     square.addEventListener('click', squareClickHandler); // click event on square
     square.squareFill = squareFill; // store the command to change color in the square object for easy access
+
+
 
     const triangle = new Shape();
 
@@ -27,7 +38,7 @@ export const makeTextSquare = (
       const fillCommand = triangle.graphics.beginFill(darkblue).command; // command that allows you to change color in future
       triangle.graphics.setStrokeStyle(1);
       const borderCommand = triangle.graphics.beginStroke(lightblue).command; // command that allows you to change color in future
-      triangle.graphics.drawPolyStar(x, y+50, 10, 3, 0, 270);
+      triangle.graphics.drawPolyStar(x, y+50, triangleSize, 3, 0, 270);
       triangle.addEventListener('click', triangleClickHandler) // click event on triangle
       triangle.fillCommand = fillCommand; // store the commands to change color in the triangle object for easy access
       triangle.borderCommand = borderCommand;
