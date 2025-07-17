@@ -413,7 +413,7 @@ const Lesson = ({ sortType }: Props) => {
     } else if (id === 'closeVideo') {
       setShowVideoModal(false)
       activityRef.current?.focus();
-    } else if (id === 'closeHelp') {
+    } else if (id === 'close-help') {
       setShowHelpModal(false)
       activityRef.current?.focus();
     } else {
@@ -422,7 +422,7 @@ const Lesson = ({ sortType }: Props) => {
   }
 
   return (
-    <div className="lesson">
+    <div className={`lesson`} >
       <div
         aria-hidden={showVideoModal || showHelpModal}
         style={{cursor: `url(${cursor(operation)}), default`}}
@@ -432,23 +432,24 @@ const Lesson = ({ sortType }: Props) => {
       >
       { !answerSubmitted && <main 
         aria-label='activity' 
-        className={operation}
-        id="sortSection" 
+        className={`${operation} ${showVideoModal && 'offscreen'}`}
+        id="sort-section" 
         role='region' 
       >
         <h1>{sortType} Sort</h1>
         <p className='center'>Sort from left to right, smallest to biggest</p>
         <canvas 
-          id="demoCanvas" 
+          id="demoCanvas"
+          className='demo-canvas'
           width={canvasWidth} 
-          height="135px">
+          height="115px">
         </canvas>
         { hint !== '' && <p id='activityHint'>{hint}</p> }
       </main> }
-      { !answerSubmitted && <aside 
+      { !answerSubmitted && !showVideoModal && !showHelpModal && <aside 
         aria-label='Your moves' 
-        className={ operation} 
-        id="yourMoves"
+        className={operation} 
+        id="your-moves"
         role='region'
       >
         <h2>Your moves</h2>
@@ -468,6 +469,12 @@ const Lesson = ({ sortType }: Props) => {
           ))}
         </ol>
       </aside> }
+      {showHelpModal && !showVideoModal && <HelpModal 
+        closeModal={closeModal}
+        isQuiz = {false}
+        onClick={toolboxClickHandler} 
+        sortType={sortType}
+      />}
 
       { answerSubmitted && <SubmissionFeedback 
         array={unsortedArray}
@@ -479,7 +486,7 @@ const Lesson = ({ sortType }: Props) => {
       /> }
         
     </div>
-      {!answerSubmitted && <Toolbox
+      {!answerSubmitted && !showVideoModal && <Toolbox
         activeTool={operation}
         hidden={showVideoModal || showHelpModal}
         enableSubmit={submitEnabled}
@@ -488,15 +495,9 @@ const Lesson = ({ sortType }: Props) => {
         sortType={sortType} 
       />}
       { showVideoModal && <VideoModal
-        onClick={toolboxClickHandler} 
+        onClick={() => setShowVideoModal(prev => !prev)} 
         sortType={sortType}
         /> }
-      {showHelpModal && !showVideoModal && <HelpModal 
-        closeModal={closeModal}
-        isQuiz = {false}
-        onClick={toolboxClickHandler} 
-        sortType={sortType}
-      />}
 
       { !showVideoModal && 
         <Critter 

@@ -22,61 +22,61 @@ export const facts = [
 export const insertionDirections = [
         ['Click on a number',       'Next', 
           '. The number buttons are in the activity region.', 
-          '145px', '485px', 'grow 1s ease-in-out infinite',
+          'demo-canvas',
         ],
         ['Click on a triangle where you want to insert the number',     'Next', 
           '. The triangle buttons are in the activity region.', 
-          '225px', '130px', 'growRotate45 1s ease-in-out infinite'
+          'demo-canvas'
         ],
         ['You can undo your moves anytime',     'Next', 
           '. The undo button is in the toolbox region.', 
-          '405px', '245px', 'growRotate270 1s ease-in-out infinite'
+          'undo'
         ],
         ['You can mark what numbers you sorted with the \'Mark Sorted\' tool',      'Next', 
           '. The mark sorted button is in the toolbox region. After selecting it, click on a number button in the activity region.', 
-          '405px', '130px', 'growRotate270 1s ease-in-out infinite'
+          'mark-sorted'
         ],
         ['Make sure you click on \'Insert\' again to keep sorting',       'Next', 
           '. The Insert button is in the toolbox region.', 
-          '405px', '10px', 'growRotate270 1s ease-in-out infinite'
+          'insert'
         ],
         ['When the array is sorted, a Submit button will appear. Click it when you are done',       'Next', 
           '. The submit button is in the toolbox region', 
-          '405px',  '605px', 'growRotate270 1s ease-in-out infinite'
+          'submit'
         ],
         ['Check out the other tools in the toolbox. The \'Help\' button will bring back these directions. Happy sorting!',     'Got it!', 
           '. The help button is in the toolbox region.', 
-          '405px', '335px', 'growRotate270 1s ease-in-out infinite'
+          'help'
         ],
       ];
 
 export const generalDirections = [
         ['Click on a number',       'Next', 
           '. The number buttons are in the activity region.', 
-          '215px', '130px', 'growRotate90 1s ease-in-out infinite'
+          'demo-canvas'
         ],
         ['Click on another number to swap them',      'Next', 
           '. The number buttons are in the activity region.', 
-          '215px', '180px', 'growRotate90 1s ease-in-out infinite'
+          'swap'
         ],
         ['You can undo your moves anytime',       'Next', 
           '. The undo button is in the toolbox region.',  
-          '405px', '245px', 'growRotate270 1s ease-in-out infinite'
+          'undo'
         ],
         ['You can mark what numbers you sorted with the \'Mark Sorted\' tool',      'Next', 
           '. The mark sorted button is in the toolbox region. After selecting it, click on a number button in the activity region.',
-          '405px', '130px', 'growRotate270 1s ease-in-out infinite'
+          'mark-sorted'
         ],
         ['Make sure you click on \'Swap\' again to keep sorting',       'Next', 
           '. The swap button is in the toolbox region.',
-          '405px', '10px', 'growRotate270 1s ease-in-out infinite'
+          'swap'
         ],
         ['When the array is sorted, a Submit button will appear in the toolbox. Click it when you are done',       'Next', 
           '. The submit button is in the toolbox region',  
-          '405px', '605px', 'growRotate270 1s ease-in-out infinite'
+          'submit'
         ],
         ['Check out the other tools in the toolbox. The \'Help\' button will bring back these directions. Happy sorting!',     'Got it!', 
           '. The help button is in the toolbox region.', 
-          '405px', '335px', 'growRotate270 1s ease-in-out infinite'
+          'help'
         ],
       ];

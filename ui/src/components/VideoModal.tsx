@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { SortType } from '../types/types'
+import undo from '@/assets/png/undo2.png';
 
 type Props = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
@@ -27,16 +28,20 @@ const VideoModal = ({ onClick, sortType }: Props) => {
       tabIndex={-1}
       ref={videoRef}
     >
-      <button
-        aria-label='close video'
-        id='closeVideo' 
-        className="closeButton" 
-        onClick={onClick} 
-      >X</button>
       <iframe 
         src={getVideo()}
-        title='Video Explaining how to do the algorithm'
-      ></iframe> 
+        title='Video explaining how to do the algorithm'
+      ></iframe>
+      <div className='row-with-overflow-center'>
+        <button 
+          className='toolboxButton'
+          onClick={onClick}
+        >
+          Return to Lesson
+          <img src={undo} alt=''/>
+        </button>
+      </div>
+      
     </aside>
   )
 }

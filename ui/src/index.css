@@ -54,6 +54,11 @@ html, body {
   flex: 1;
 }
 
+.offscreen {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+}
 
 h1 {
   color: var(--big-text);
@@ -114,6 +119,66 @@ li {
 }
 
 /*************** navbar *****************/
+.navbar {
+  padding: 10px 0px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#logo {
+  display: block;
+  float: left;
+  width: 140px;
+  margin: 0px 0px 0px 10px;
+}
+
+.navbarlink {
+  float: left;
+  position: relative;
+  margin: 10px;
+  font-size: 15px;
+}
+
+.navbarButton {
+  border: none;
+  background-color: var(--main-background);
+  font-size: 100%;
+  font-weight: normal;
+  text-decoration: underline;
+  color: var(--small-text);
+}
+
+.logowave {
+  width: 120px;
+  height: 30px;
+  margin: 3px 0px 0px 0px;
+  object-fit: cover;
+  object-position: 100% 0px;
+}
+
+#menurow1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#homeAlgorithmMenu {
+  float: right;
+  margin: 0px;
+}
+
+.phone-only {
+  display: none;
+}
+
+#toggleButton {
+  border: none;
+  background-color: var(--main-background);
+  float: left;
+  margin: 0px;
+}
+
 #menuButton {
   background-color: transparent;
   border: none;
@@ -183,113 +248,6 @@ li {
 
 #homeAlgorithmMenu>.link {
   color: #16324F;
-}
-
-/* computers and horizontal ipads */
-@media (min-width: 660px) {
-  .navbar {
-    padding: 10px 0px;
-    height: 50px;
-  }
-
-  #logo {
-    display: block;
-    float: left;
-    width: 140px;
-    margin: 0px 0px 0px 10px;
-  }
-  
-  .navbarlink {
-    float: left;
-    position: relative;
-    margin: 10px;
-    font-size: 15px;
-  }
-
-  .navbarButton {
-    border: none;
-    background-color: var(--main-background);
-    font-size: 100%;
-    font-weight: normal;
-    text-decoration: underline;
-    color: var(--small-text);
-  }
-
-  .logowave {
-    width: 120px;
-    height: 30px;
-    margin: 3px 0px 0px 0px;
-    object-fit: cover;
-    object-position: 100% 0px;
-  }
-
-  #menurow1 {
-    float: right;
-  }
-
-  #homeAlgorithmMenu {
-    float: right;
-    margin: 0px;
-  }
-
-  .phone-only {
-    display: none;
-  }
-
-  #toggleButton {
-    border: none;
-    background-color: var(--main-background);
-    float: left;
-    margin: 0px;
-  }
-}
-
-/* vertical ipads and phones */
-@media (max-width: 660px) {
-  .navbar {
-    padding: 10px;
-    height: 60px;
-  }
-
-  #logo {
-    display: block;
-    float: none;
-    width: 140px;
-    margin: 0px auto 0px auto;
-  }
-  
-  .navbarlink {
-    float: right;
-    position: relative;
-    margin: 2px;
-  }
-
-  .logowave {
-    width: 120px;
-    height: 30px;
-    margin: 3px 0px 0px 0px;
-    object-fit: cover;
-    object-position: 100% 0px;
-  }
-
-  #menurow1, #homeAlgorithmMenu {
-    display: none;
-  }
-
-  .phone-only {
-    display: block;
-    float: left;
-    width: 90px;
-    font-size: 12px;
-  }
-
-  #toggleButton {
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    top: 0px;
-    left: 85%;
-  }
 }
 
 /*************** Home Page General *****************/
@@ -1201,16 +1159,26 @@ select {
 
 /*************** Lesson Page: General *****************/
 .lesson {
-  position: relative;
-  width: 1020px;
-  height: 650px;
-  margin: 0px auto 20px auto;
+  display: flex;
+  flex-direction: column;
 }
 
 #activity {
-  width: 1020px;
-  height: 435px;
-  margin: auto;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#sort-section, #your-moves, #feedback {
+  padding: 10px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px; 
+  background-color: var(--box);
+  -moz-box-shadow: 0 0 10px var(--small-text);
+  -webkit-box-shadow: 0 0 10px var(--small-text);
+  box-shadow: 0 0 10px var(--small-text);
 }
 
 #activityHint {
@@ -1223,8 +1191,8 @@ select {
   border-radius: 10px;
 }
 
-#sortSection, #yourMoves, #feedback {
-  padding: 10px;
+#sort-section, #your-moves, #feedback {
+  padding: 10px 0;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px; 
@@ -1234,19 +1202,10 @@ select {
   box-shadow: 0 0 10px var(--small-text);
 }
 
-.critter {
-  position: absolute;
-  width: 200px;
-  top: 390px;
-  left: 830px;
-}
-
-/*************** Lesson Page: sortSection *****************/
-#sortSection {
-  width: 580px;
-  float: left;
-  margin-right: 20px;
-  height: 415px;
+/*************** Lesson Page: sort-section *****************/
+#sort-section {
+  width: 60%;
+  min-width: 365px;
 }
 
 #activity>h1 {
@@ -1255,18 +1214,20 @@ select {
 
 #demoCanvas {
   display: block;
-  margin: 50px auto 0px auto;
+  margin: 30px auto 0px auto;
 }
 
-/*************** Lesson Page: yourMoves *****************/
-#yourMoves {
-  width: 380px;
-  height: 415px;
-  float: left;
+/*************** Lesson Page:  *****************/
+#your-moves, #help-modal {
   font-size: 90%;
+  width: 30%;
+  min-width: 360px;
+  padding: 30px 0;
+  min-height: 270px;
 }
-#yourMoves>h2 {
-  margin: 30px 0px 20px 0px;
+
+#your-moves>h2 {
+  margin: 0px 0px 20px 0px;
 }
 
 #hints {
@@ -1275,9 +1236,31 @@ select {
   float: left;
 }
 
+/* larger screens */
+@media (min-width: 630px) {
+  .critter {
+    position: absolute;
+    width: 200px;
+    top: 340px;
+    right: 10px;
+  }
+}
+
+/* smaller screens */
+@media (max-width: 630px) {
+  .critter {
+    position: absolute;
+    width: 150px;
+    top: 100px;
+    right: 0px;
+  }
+}
+
 /*************** Lesson Page: Toolbox *****************/
 #toolbox{
-  width: 1000px;
+  /*width: 1000px; */
+  width: 90%;
+  min-height: 93px;
   padding: 10px;
   margin: 20px auto 10px auto;
   border-radius: 5px;
@@ -1294,12 +1277,26 @@ select {
   margin: 0px 0px 10px 0px;
 }
 
+.row-with-overflow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.row-with-overflow-center {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
 .toolboxButton {
   background-color: #C5D5E4;
   border-radius: 5px;
   font-size: 15px;
   color: #16324F;
-  margin-right: 20px;
   border: 2px solid #C5D5E4;
   padding: 4px 8px 4px 1px;
   -moz-box-shadow: inset 0 0 10px #E5ECF3;
@@ -1352,11 +1349,16 @@ select {
 }
 
 /*************** Lesson Page: Feedback *****************/
+.feedback-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
 #feedback {
-  width: 620px;
-  float: left;
-  margin-right: 20px;
-  height: 540px;
+  padding-bottom: 30px;
   background-color: var(--box);
   -moz-box-shadow: 0 0 10px var(--small-text);
   -webkit-box-shadow: 0 0 10px var(--small-text);
@@ -1367,55 +1369,52 @@ select {
 }
 
 #correctFeedback {
-  position: absolute;
-  top: 450px;
-  left: 180px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 #greatJob {
-  margin: 20px 00px 0px 0px;
   font-size: 300%;
   color: #6bb478;
   float: left;
 }
 
 #incorrectFeedback{
-  position: absolute;
-  top: 450px;
-  left: 180px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 #incorrectFeedback>button {
   border: 8px solid #e38282;
   animation: grow 0.5s ease-in-out 2;
-  float: left;
   margin-top: 20px;
 }
 
 .feedbackImg {
   width: 100px;
-  float: left;
 }
 
 .movesList {
   margin: 20px 0px 0px 0px;
+  text-align: center;
 } 
 
 #movesListLeft {
-  float: left;
   width: 220px;
-  margin: 20px 0px 0px 60px;
 }
+
 #movesListRight {
-  float: right;
   width: 220px;
-  margin: 20px 60px 0px 20px;
 }
 
 .submissionFeedbackReturn {
-  position: absolute;
-  top: 530px;
-  left: 280px;
   text-align: center;
 }
 
@@ -1426,13 +1425,8 @@ select {
 }
 
 .scene {
-  display: inline-block;
-  width: 280px;
+width: 280px;
   height: 313px;
-  perspective: 600px;
-  position: absolute;
-  top: 70px;
-  left: 720px;
 }
 
 .card {
@@ -1486,9 +1480,9 @@ select {
 /*************** Lesson Page: Modals *****************/
 
 #videoModal {
-  position: absolute;
-  width: 1020px;
+  width: 100%;
   height: 590px;
+  position: absolute;
   top: 0px;
   left: 0px;
   margin: 0px;
@@ -1501,29 +1495,43 @@ select {
   -webkit-border-radius: 5px; 
 }
 
-#helpModal {
-  position: absolute;
-  width: 500px;
-  height: 120px;
-  top: 270px;
-  left: 250px;
+iframe {
+  width: 100%;
+  height: 590px;
+}
+
+#help-modal {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  min-height: 310px;
+  width: 30%;
+  min-width: 340px;
   background-color: #f7c654;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 10px;
   -moz-box-shadow: 0 0 10px var(--small-text);
   -webkit-box-shadow: 0 0 10px var(--small-text);
   box-shadow: 0 0 10px var(--small-text);
 }
 
-#helpModal>h2 {
+#help-modal>h2 {
   color: #16324F;
   width: 130px;
-  margin: 0px auto 20px auto;
+  font-size: 20px;
+  margin: 20px auto 40px auto;
 }
 
-#helpModal>p {
-  color: #16324F;
+.orange-border {
+  border: 5px solid orange !important;
+}
+
+.direction-text {
+  font-size: 18px;
+  margin: 30px 0 30px 0;
   text-align: center;
+  height: 80px;
 }
 
 .helpArrow {
@@ -1576,21 +1584,12 @@ select {
   left: 996px;
 }
 
-#closeHelp {
-  top: 10px;
-  left: 485px;
-}
 
-.nextButton {
+#close-help {
+  text-align: right;
   position: absolute;
-  top: 110px;
-  left: 240px;
-}
-
-iframe {
-  width: 1020px;
-  height: 590px;
-  border: none;
+  top: 10px;
+  right: 10px;
 }
 
 /*************** Dashboard *****************/

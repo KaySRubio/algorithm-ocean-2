@@ -2,7 +2,6 @@ import type { ProgramStackItem, SortType } from '../types/types';
 
 
 export const performBubbleSort = (array: number[]): ProgramStackItem[] => {
-  // const array = [6, 5, 4, 3, 2, 1];
   const programStack: ProgramStackItem[] = [];
 
   for (let i = 0; i < array.length; i++) {
@@ -16,58 +15,57 @@ export const performBubbleSort = (array: number[]): ProgramStackItem[] => {
       }
     }
   }
-
   return programStack;
 };
 
 export const performInsertionSort = (array: number[]): ProgramStackItem[] => {
-    // Operation is Insert operand1 right before operand2
-    // When examining a number, if that number causes other numbers to shift right that number becomes operand1
-    // When if numbers shifted right, the first one that shifted right becomes operand2
-    let operand1: number = 0;
-    let operand2: number = 0;
-    const programStack: ProgramStackItem[] = [];
+  // Operation is Insert operand1 right before operand2
+  // When examining a number, if that number causes other numbers to shift right that number becomes operand1
+  // When if numbers shifted right, the first one that shifted right becomes operand2
+  let operand1: number = 0;
+  let operand2: number = 0;
+  const programStack: ProgramStackItem[] = [];
 
-    for (let i = 1; i < array.length; i++) {
+  for (let i = 1; i < array.length; i++) {
 
-      // Choosing the first element in our unsorted subarray
-      const current = array[i];
-      // The last element of our sorted subarray
-      let j = i-1; 
+    // Choosing the first element in our unsorted subarray
+    const current = array[i];
+    // The last element of our sorted subarray
+    let j = i-1; 
 
-      while ((j > -1) && (current < array[j])) {
-        operand1 = current; // store operands
-        operand2 = array[j]; 
-        array[j+1] = array[j]; // move this item to the right
-        j--; // check the item next
-      }
-      
-      // check if anything was moved
-      if ( array[j+1] !== current ) {
-        array[j+1] = current; // store current item in the new spot
-        programStack.push(['Insert', operand1, operand2]);
-      }
+    while ((j > -1) && (current < array[j])) {
+      operand1 = current; // store operands
+      operand2 = array[j]; 
+      array[j+1] = array[j]; // move this item to the right
+      j--; // check the item next
     }
-    return programStack
+    
+    // check if anything was moved
+    if ( array[j+1] !== current ) {
+      array[j+1] = current; // store current item in the new spot
+      programStack.push(['Insert', operand1, operand2]);
+    }
   }
+  return programStack
+}
 
 export const performSelectionSort = (array: number[]): ProgramStackItem[] => {
-    const programStack: ProgramStackItem[] = [];
-    for(let i = 0; i < array.length; i++) {
-      let min = i;
-      for(let j = i+1; j < array.length; j++){
-        if(array[j] < array[min]) {
-            min=j; 
-        }
-      }
-      if (min !== i) {
-        // push the swap operation to the stack, then perform it
-        programStack.push(['Swap', array[i], array[min]]);
-        [array[i], array[min]] = [array[min], array[i]]
+  const programStack: ProgramStackItem[] = [];
+  for(let i = 0; i < array.length; i++) {
+    let min = i;
+    for(let j = i+1; j < array.length; j++){
+      if(array[j] < array[min]) {
+          min=j; 
       }
     }
-    return programStack
+    if (min !== i) {
+      // push the swap operation to the stack, then perform it
+      programStack.push(['Swap', array[i], array[min]]);
+      [array[i], array[min]] = [array[min], array[i]]
+    }
   }
+  return programStack
+}
 
 // sort array then re-call initializeArray if the list is too close to sorted
 export const sort = (type: SortType, array: number[]): ProgramStackItem[] => {

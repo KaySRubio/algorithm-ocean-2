@@ -46,47 +46,47 @@ export const makeTextSquare = (
   }
 
 export const visualSwap = (containerA: createjs.Container, containerB: createjs.Container, stage: createjs.Stage) => {
-    // Get the distance between them on the screen for visual swapping
-    const distance = containerA.getTransformedBounds().x - containerB.getTransformedBounds().x;
-    // Tween the createJS containers for a visual swap
-    Tween.get(containerA)
-      .to({ y: 40, x: containerA.x+distance/2*-1 }, 500, Ease.getPowIn(4))
-      .to({ y: 0, x: containerA.x+distance*-1 }, 500, Ease.getPowOut(4)); 
-    Tween.get(containerB)
-      .to({ y: 80, x: containerB.x+distance/2 }, 500, Ease.getPowIn(4))
-      .to({ y: 0, x: containerB.x+distance }, 500, Ease.getPowOut(4));
-    
-    Ticker.addEventListener("tick", stage);
-    // todo - remove event listener at some point after animations are done?
-  }
+  // Get the distance between them on the screen for visual swapping
+  const distance = containerA.getTransformedBounds().x - containerB.getTransformedBounds().x;
+  // Tween the createJS containers for a visual swap
+  Tween.get(containerA)
+    .to({ y: 40, x: containerA.x+distance/2*-1 }, 500, Ease.getPowIn(4))
+    .to({ y: 0, x: containerA.x+distance*-1 }, 500, Ease.getPowOut(4)); 
+  Tween.get(containerB)
+    .to({ y: 80, x: containerB.x+distance/2 }, 500, Ease.getPowIn(4))
+    .to({ y: 0, x: containerB.x+distance }, 500, Ease.getPowOut(4));
+  
+  Ticker.addEventListener("tick", stage);
+  // todo - remove event listener at some point after animations are done?
+}
 
 export const visualInsert = (containerA: createjs.Container, shiftToRight: createjs.Container[], stage: createjs.Stage, textSquares: createjs.Container[]) => {
-    // @ts-expect-error ignore canvas errors
-    textSquares.forEach(e => e.children[2].fillCommand.style = transparent); // hide all triangles during visual insert
-    // @ts-expect-error ignore canvas errors
-    textSquares.forEach(e => e.children[2].borderCommand.style = transparent);
+  // @ts-expect-error ignore canvas errors
+  textSquares.forEach(e => e.children[2].fillCommand.style = transparent); // hide all triangles during visual insert
+  // @ts-expect-error ignore canvas errors
+  textSquares.forEach(e => e.children[2].borderCommand.style = transparent);
 
-    // get the distance between containerA and the last element in shiftToRight, which is the place that containerA is going
-    const distance = containerA.getTransformedBounds().x - shiftToRight[shiftToRight.length-1].getTransformedBounds().x;
+  // get the distance between containerA and the last element in shiftToRight, which is the place that containerA is going
+  const distance = containerA.getTransformedBounds().x - shiftToRight[shiftToRight.length-1].getTransformedBounds().x;
 
-    // tween all containers in shiftToRight to the right
-    for(let i = 0; i < shiftToRight.length; i++) {
-      const container = shiftToRight[i];
-      Tween.get(container)
-      .to({ x: container.x+50 }, 250, Ease.getPowIn(4));
-    }
-    
-    // tween containerA into it's new location
-    Tween.get(containerA)
-    .to({ y: 60, x: containerA.x+distance/2*-1 }, 250, Ease.getPowIn(4))
-    .to({ y: 0, x: containerA.x+distance*-1 }, 250, Ease.getPowOut(4)); 
-    
-    Ticker.addEventListener("tick", stage);
-    // @ts-expect-error ignore canvas errors
-    setTimeout(() => {textSquares.forEach(e => e.children[2].fillCommand.style = darkblue)}, 501); // show triangles again
-    // @ts-expect-error ignore canvas errors
-    setTimeout(() => {textSquares.forEach(e => e.children[2].borderCommand.style = lightblue)}, 501);
+  // tween all containers in shiftToRight to the right
+  for(let i = 0; i < shiftToRight.length; i++) {
+    const container = shiftToRight[i];
+    Tween.get(container)
+    .to({ x: container.x+50 }, 250, Ease.getPowIn(4));
   }
+    
+  // tween containerA into it's new location
+  Tween.get(containerA)
+  .to({ y: 60, x: containerA.x+distance/2*-1 }, 250, Ease.getPowIn(4))
+  .to({ y: 0, x: containerA.x+distance*-1 }, 250, Ease.getPowOut(4)); 
+  
+  Ticker.addEventListener("tick", stage);
+  // @ts-expect-error ignore canvas errors
+  setTimeout(() => {textSquares.forEach(e => e.children[2].fillCommand.style = darkblue)}, 501); // show triangles again
+  // @ts-expect-error ignore canvas errors
+  setTimeout(() => {textSquares.forEach(e => e.children[2].borderCommand.style = lightblue)}, 501);
+}
 
 export const visualUndoInsert = (
   containerA: createjs.Container,
@@ -94,29 +94,29 @@ export const visualUndoInsert = (
   stage: createjs.Stage | null,
   textSquares: createjs.Container[]
 ) => {
-    // @ts-expect-error ignore canvas errors
-    textSquares.forEach(e => e.children[2].fillCommand.style = transparent); // hide all triangles during visual animation
-    // @ts-expect-error ignore canvas errors
-    textSquares.forEach(e => e.children[2].borderCommand.style = transparent);
+  // @ts-expect-error ignore canvas errors
+  textSquares.forEach(e => e.children[2].fillCommand.style = transparent); // hide all triangles during visual animation
+  // @ts-expect-error ignore canvas errors
+  textSquares.forEach(e => e.children[2].borderCommand.style = transparent);
 
-    // get the distance between containerA and the first element in shiftToRight, which is the place that containerA is going
-    const distance = containerA.getTransformedBounds().x - shiftToRight[0].getTransformedBounds().x;
+  // get the distance between containerA and the first element in shiftToRight, which is the place that containerA is going
+  const distance = containerA.getTransformedBounds().x - shiftToRight[0].getTransformedBounds().x;
 
-    // tween all containers in shiftToRight to the left
-    for(let i = 0; i < shiftToRight.length; i++) {
-      const container = shiftToRight[i];
-      Tween.get(container)
-      .to({ x: container.x-50 }, 250, Ease.getPowIn(4));
-    }
-    
-    // tween containerA into it's new location
-    Tween.get(containerA)
-    .to({ y: 60, x: containerA.x+distance/2*-1 }, 250, Ease.getPowIn(4))
-    .to({ y: 0, x: containerA.x+distance*-1 }, 250, Ease.getPowOut(4)); 
-    
-    Ticker.addEventListener("tick", stage);
-    // @ts-expect-error ignore canvas errors
-    setTimeout(() => {textSquares.forEach(e => e.children[2].fillCommand.style = darkblue)}, 501); // show triangles again
-    // @ts-expect-error ignore canvas errors
-    setTimeout(() => {textSquares.forEach(e => e.children[2].borderCommand.style = lightblue)}, 501);
+  // tween all containers in shiftToRight to the left
+  for(let i = 0; i < shiftToRight.length; i++) {
+    const container = shiftToRight[i];
+    Tween.get(container)
+    .to({ x: container.x-50 }, 250, Ease.getPowIn(4));
   }
+  
+  // tween containerA into it's new location
+  Tween.get(containerA)
+  .to({ y: 60, x: containerA.x+distance/2*-1 }, 250, Ease.getPowIn(4))
+  .to({ y: 0, x: containerA.x+distance*-1 }, 250, Ease.getPowOut(4)); 
+  
+  Ticker.addEventListener("tick", stage);
+  // @ts-expect-error ignore canvas errors
+  setTimeout(() => {textSquares.forEach(e => e.children[2].fillCommand.style = darkblue)}, 501); // show triangles again
+  // @ts-expect-error ignore canvas errors
+  setTimeout(() => {textSquares.forEach(e => e.children[2].borderCommand.style = lightblue)}, 501);
+}
